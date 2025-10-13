@@ -6,7 +6,7 @@ public class KeyboardColorizer : MonoBehaviour
 {
     [Header(" Elements ")]
     private KeyboardKey[] keys;
-
+    private bool shouldReset;
     private void Awake()
     {
         keys = GetComponentsInChildren<KeyboardKey>();
@@ -28,6 +28,10 @@ public class KeyboardColorizer : MonoBehaviour
                 Initialize();
                 break;
             case GameState.LevelComplete:
+                shouldReset = true;
+                break;
+            case GameState.Gameover:
+                shouldReset = true;
                 break;
         }
     }
@@ -37,6 +41,7 @@ public class KeyboardColorizer : MonoBehaviour
         {
             keys[i].Initialize();
         }
+        shouldReset = false;
     }
     // Update is called once per frame
     void Update()

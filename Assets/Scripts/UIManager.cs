@@ -4,10 +4,15 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     [Header(" Elements ")]
+    [SerializeField] private CanvasGroup MenuCG;
     [SerializeField] private CanvasGroup gameCG;
     [SerializeField] private CanvasGroup levelCompleteCG;
     [SerializeField] private CanvasGroup gameoverCG;
+    [SerializeField] private CanvasGroup settingsCG;
 
+    [Header(" Menu Elements ")]
+    [SerializeField] private TextMeshProUGUI menuCoins;
+    [SerializeField] private TextMeshProUGUI menuBestScore;
 
     [Header(" Level Complete Elements ")]
     [SerializeField] private TextMeshProUGUI levelCompleteCoins;
@@ -34,29 +39,42 @@ public class UIManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ShowGame();
+        ShowMenu();
+        HideGame();
         HideLevelComplete();
+        HideGameover();
         GameManager.onGameStateChanged += GameStateChangedCallback;
+        DataManager.onCoinsUpdated += UpdateCoinsTexts;
     }
     private void OnDestroy()
     {
         GameManager.onGameStateChanged -= GameStateChangedCallback;
+        DataManager.onCoinsUpdated -= UpdateCoinsTexts;
+
     }
     private void GameStateChangedCallback(GameState gameState)
     {
         switch(gameState){
+            case GameState.Menu:
+                ShowMenu();
+                HideGame();
+                break;
+
             case GameState.Game:
                 ShowGame();
+                HideMenu();
                 HideLevelComplete();
+                HideGameover();
                 break;
 
             case GameState.LevelComplete:
                 ShowLevelComplete();
                 HideGame();
                 break;
+
             case GameState.Gameover:
                 ShowGameover();
-                HideGame();
+                HideGame(); 
                 break;
         }
     }
@@ -65,6 +83,24 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         
+    }
+    public void UpdateCoinsTexts()
+    {
+        menuCoins.text = DataManager.instance.GetCoins().ToString();
+        gameCoins.text = menuCoins.text;
+        levelCompleteCoins.text = menuCoins.text;
+        gameoverCoins.text = menuCoins.text;
+    }
+    private void ShowMenu()
+    {
+        menuCoins.text = DataManager.instance.GetCoins().ToString();
+        menuBestScore.text = DataManager.instance.GetBestScore().ToString();
+
+        ShowCG(MenuCG);
+    }
+    private void HideMenu()
+    {
+        HideCG(MenuCG);
     }
     private void ShowGame()
     {
@@ -100,6 +136,14 @@ public class UIManager : MonoBehaviour
     private void HideGameover()
     {
         HideCG(gameoverCG);
+    }
+    public void ShowSettings()
+    {
+        ShowCG(settingsCG);
+    }
+    public void HideSettings()
+    {
+        HideCG(settingsCG);
     }
     private void ShowCG(CanvasGroup cg)
     {

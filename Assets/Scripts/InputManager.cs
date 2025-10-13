@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 public class InputManager : MonoBehaviour
 {
     public static InputManager instance;
@@ -12,6 +13,11 @@ public class InputManager : MonoBehaviour
     [Header(" Settings")]
     private int currentWordContainerIndex;
     private bool canAddLetter = true;
+    private bool shouldReset;
+
+    [Header(" Events ")]
+    public static Action onLetterAdded;
+    public static Action onLetterRemoved;
 
     private void Awake()
     {
@@ -39,10 +45,14 @@ public class InputManager : MonoBehaviour
         switch (gameState)
         {
             case GameState.Game:
-                Initialize();
+                if(shouldReset)
+                    Initialize();
                 break;
             case GameState.LevelComplete:
-
+                shouldReset = true;
+                break;
+            case GameState.Gameover:
+                shouldReset = true;
                 break;
         }
     }
@@ -62,6 +72,7 @@ public class InputManager : MonoBehaviour
         {
             wordContainers[i].Initialize();
         }
+        shouldReset = false;
     }
     private void KeyPressedcallback(char letter)
     {
@@ -76,7 +87,7 @@ public class InputManager : MonoBehaviour
             canAddLetter = false;
             EnableTryButton();
         }
-        
+        onLetterAdded?.Invoke();
     }
     public void BackspacePressedCallback()
     {
@@ -85,6 +96,7 @@ public class InputManager : MonoBehaviour
         bool removeLetter = wordContainers[currentWordContainerIndex].RemoveLetter();
         if(removeLetter)
             canAddLetter = true;
+        onLetterRemoved?.Invoke();
     }
     public void CheckWord()
     {
