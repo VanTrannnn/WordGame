@@ -1,0 +1,27 @@
+Thể loại: Word HyperCasual Game
+Nền tảng: Mobile (Android).
+Đối tượng người chơi: Người yêu thích ngôn ngữ, học sinh/sinh viên muốn trau dồi từ vựng, và người chơi casual tìm kiếm game giải đố ngắn gọn.
+Core Loop: Đoán từ -> Nhận phản hồi màu sắc -> Tư duy/Sử dụng Hint bằng tiền thưởng-> Giải mã thành công -> Nhận thưởng (Tiền tệ).
+
+
+Gameplay Mechanics:
+Người chơi có tối đa 6 lượt đoán để tìm ra một từ bí mật gồm 5 chữ cái. Sau mỗi lần nhập từ, các ô chữ sẽ thay đổi màu sắc dựa trên thuật toán kiểm tra ba trạng thái:
+Xanh lá (Green): Chữ cái đúng và nằm đúng vị trí.
+Vàng (Yellow): Chữ cái có trong từ bí mật nhưng nằm sai vị trí.
+Xám (Gray): Chữ cái không tồn tại trong từ bí mật.
+
+
+Dictionary System
+Nguồn dữ liệu: Tệp .txt chứa 5,757 từ vựng (chủ yếu là danh từ, động từ, tính từ phổ biến).
+Logic tạo màn: Mỗi lượt chơi mới, hệ thống sẽ chọn ngẫu nhiên một từ từ danh sách này làm "Target Word".
+
+Hint System
+Để giảm bớt độ khó, người chơi có thể sử dụng Coins trong game để mua:
+Gợi ý vị trí: Tự động điền một chữ cái đúng vào ô Xanh lá.
+Loại bỏ từ: Loại bỏ các phím chữ cái chắc chắn không nằm trong từ khỏi bàn phím ảo.
+
+Economy
+Coins:
+Cách kiếm: Thắng màn chơi (số tiền dựa trên số lượt đoán còn lại) (feature: xem quảng cáo, hoặc điểm danh hàng ngày).
+
+Cách dùng: Mua các gói Hint (feature: mở khóa các (Themes)).
